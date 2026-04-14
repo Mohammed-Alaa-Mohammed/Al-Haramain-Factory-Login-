@@ -295,6 +295,8 @@
             gap: 12px;
             box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
             margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
         @media (max-width: 480px) {
@@ -425,46 +427,6 @@
             display: flex;
             justify-content: flex-end;
         }
-        /* بطاقة البيانات التجريبية */
-        .demo-badge {
-            background: rgba(46, 213, 210, 0.12);
-            border: 1px dashed rgba(46, 213, 210, 0.5);
-            border-radius: 60px;
-            padding: 8px 15px;
-            margin: 1rem 0 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            font-size: 0.75rem;
-            color: #bfd9ff;
-        }
-        .demo-creds {
-            font-family: monospace;
-            background: #0e1a24;
-            padding: 4px 10px;
-            border-radius: 30px;
-            font-size: 0.75rem;
-            letter-spacing: 0.5px;
-        }
-        .fill-demo-btn {
-            background: rgba(46, 213, 210, 0.2);
-            border: none;
-            color: #2ed5d2;
-            padding: 5px 14px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: 'Cairo', sans-serif;
-        }
-        .fill-demo-btn:hover {
-            background: #2ed5d2;
-            color: #021018;
-            transform: scale(0.97);
-        }
         /* معلومات آخر دخول */
         .last-login-info {
             margin-top: 1rem;
@@ -477,7 +439,7 @@
             width: auto;
             backdrop-filter: blur(4px);
         }
-        /* مودال نسيان كلمة المرور */
+        /* مودال نسيان كلمة المرور (بدون إظهار بيانات) */
         .modal-forgot {
             position: fixed;
             top: 0;
@@ -534,6 +496,47 @@
             margin-top: 0.5rem;
             font-family: 'Cairo', sans-serif;
         }
+        /* أنيميشن إضافية: وميض للزر، تأثير كتابة، دوران خفيف للأيقونة */
+        @keyframes btnPulse {
+            0% { box-shadow: 0 0 0 0 rgba(46, 213, 210, 0.5); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 213, 210, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 213, 210, 0); }
+        }
+        .login-btn:focus {
+            animation: btnPulse 0.8s ease-out;
+        }
+        .input-group i:first-child {
+            transition: transform 0.2s;
+        }
+        input:focus + i:first-child {
+            transform: translateY(-50%) scale(1.1);
+        }
+        /* مؤشر تحميل مخصص داخل الزر */
+        .btn-loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .btn-loading i {
+            animation: spinLoader 1s infinite linear;
+        }
+        @keyframes spinLoader {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        /* تحسينات إضافية لظهور العناصر بتأثير متتالي */
+        .input-group, .options-row, .strength-container, .login-btn, .last-login-info {
+            animation: slideFade 0.5s ease backwards;
+        }
+        .input-group:nth-child(1) { animation-delay: 0.1s; }
+        .input-group:nth-child(2) { animation-delay: 0.2s; }
+        .options-row { animation-delay: 0.3s; }
+        .strength-container { animation-delay: 0.35s; }
+        .login-btn { animation-delay: 0.45s; }
+        .last-login-info { animation-delay: 0.55s; }
+        @keyframes slideFade {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -576,18 +579,13 @@
                 </div>
                 <div class="strength-text" id="strengthText">أدخل كلمة المرور</div>
             </div>
-            <button type="submit" class="login-btn">
+            <button type="submit" class="login-btn" id="loginBtn">
                 <span>دخول</span>
                 <i class="fas fa-arrow-left"></i>
             </button>
         </form>
 
-        <!-- بطاقة البيانات التجريبية الذكية -->
-        <div class="demo-badge">
-            <span><i class="fas fa-flask"></i> بيانات تجريبية:</span>
-            <span class="demo-creds">admin / 405190</span>
-            <button type="button" id="fillDemoBtn" class="fill-demo-btn"><i class="fas fa-pen"></i> تعبئة تلقائي</button>
-        </div>
+        <!-- تم حذف قسم البيانات التجريبية بالكامل بناءً على الطلب -->
 
         <!-- معلومات آخر دخول -->
         <div id="lastLoginArea" class="last-login-info" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
@@ -600,14 +598,13 @@
     </div>
 </div>
 
-<!-- مودال نسيان كلمة المرور (إضافة رائعة) -->
+<!-- مودال نسيان كلمة المرور (بدون إظهار أي بيانات تسجيل دخول) -->
 <div id="forgotModal" class="modal-forgot">
     <div class="modal-content">
         <i class="fas fa-key" style="font-size: 2rem; color:#2ed5d2;"></i>
         <h4>استعادة الوصول</h4>
-        <p>بيانات الدخول الافتراضية للنظام:</p>
-        <p style="background: #0a111c; padding: 8px; border-radius: 60px;"><strong>👤 اسم المستخدم:</strong> admin<br> <strong>🔒 كلمة المرور:</strong> 405190</p>
-        <p>يرجى التواصل مع مدير النظام إذا واجهت مشكلة.</p>
+        <p>للحصول على بيانات الدخول الخاصة بك، يرجى التواصل مع مدير النظام أو قسم تكنولوجيا المعلومات في المصنع.</p>
+        <p>شكراً لتفهمكم.</p>
         <button class="modal-close" id="closeModalBtn">فهمت ✓</button>
     </div>
 </div>
@@ -618,18 +615,18 @@
     // إعداد الجزيئات المتحركة للخلفية
     function createParticles() {
         const container = document.getElementById('particlesContainer');
-        const particleCount = 70;
+        const particleCount = 80; // زيادة طفيفة للحيوية
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.classList.add('particle');
-            const size = Math.random() * 5 + 2;
+            const size = Math.random() * 6 + 2;
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDuration = `${Math.random() * 12 + 8}s`;
-            particle.style.animationDelay = `${Math.random() * 15}s`;
-            particle.style.opacity = Math.random() * 0.5 + 0.1;
-            particle.style.background = `rgba(46, 213, 210, ${Math.random() * 0.5 + 0.2})`;
+            particle.style.animationDuration = `${Math.random() * 15 + 8}s`;
+            particle.style.animationDelay = `${Math.random() * 20}s`;
+            particle.style.opacity = Math.random() * 0.6 + 0.1;
+            particle.style.background = `rgba(46, 213, 210, ${Math.random() * 0.6 + 0.2})`;
             container.appendChild(particle);
         }
     }
@@ -641,10 +638,11 @@
     const passwordInput = document.getElementById('password');
     const togglePasswordBtn = document.getElementById('togglePassword');
     const glassCard = document.querySelector('.glass-card');
+    const loginBtn = document.getElementById('loginBtn');
 
-    // بيانات الاعتماد الصحيحة
+    // بيانات الاعتماد الصحيحة (تم تغيير كلمة المرور)
     const VALID_USERNAME = "admin";
-    const VALID_PASSWORD = "405190";
+    const VALID_PASSWORD = "alharamainfactory_2026_2027";
     const TARGET_URL = "https://mohammed-alaa-mohammed.github.io/Al-Haramain-Factory-System-/#";
 
     // وظيفة عرض رسالة خطأ باستخدام Toastify
@@ -683,8 +681,8 @@
         }, 800);
     }
 
-    // التحقق من صحة الإدخالات (الأصلي)
-    function validateAndLogin(event) {
+    // التحقق من صحة الإدخالات (مع تحسين: إظهار حالة تحميل وفتح _blank)
+    async function validateAndLogin(event) {
         event.preventDefault();
 
         const username = usernameInput.value.trim();
@@ -716,8 +714,13 @@
                 localStorage.setItem('rememberMeFlag', 'false');
             }
 
+            // إضافة تأثير تحميل على الزر
+            const originalContent = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<i class="fas fa-spinner"></i> جاري التوجيه...';
+            loginBtn.classList.add('btn-loading');
+
             Toastify({
-                text: "✅ تم التحقق بنجاح... جاري التوجيه للمصنع الرقمي",
+                text: "✅ تم التحقق بنجاح... جاري التوجيه للنظام",
                 duration: 1500,
                 close: false,
                 gravity: "top",
@@ -732,13 +735,19 @@
             }).showToast();
 
             setTimeout(() => {
-                window.location.href = TARGET_URL;
+                // فتح الرابط في نافذة جديدة (_blank)
+                window.open(TARGET_URL, '_blank');
+                // استعادة الزر (لن يتم استخدامه كثيرًا لكن احتياطًا)
+                loginBtn.innerHTML = originalContent;
+                loginBtn.classList.remove('btn-loading');
             }, 1500);
         } else {
             showErrorToast("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
             shakeLoginCard();
             passwordInput.value = "";
             passwordInput.focus();
+            // تحديث مقياس القوة
+            updateStrengthMeter();
         }
     }
 
@@ -786,7 +795,7 @@
         mouseY = e.clientY / window.innerHeight;
         const bgAnimation = document.querySelector('.bg-animation');
         if (bgAnimation) {
-            bgAnimation.style.transform = `translate(${mouseX * 5}px, ${mouseY * 5}px)`;
+            bgAnimation.style.transform = `translate(${mouseX * 6}px, ${mouseY * 6}px)`;
             bgAnimation.style.transition = 'transform 0.1s ease-out';
         }
     });
@@ -801,15 +810,15 @@
     console.log("%c⚠️ نظام دخول آمن | مصنع الحرمين للبلاستيك", "color: #2ed5d2; font-size: 16px; font-weight: bold;");
     console.log("%cبيانات الدخول خاصة بالموظفين المصرح لهم فقط", "color: #ffaa44;");
 
-    // ========== الإضافات الجديدة والتطويرات ==========
-    // 1. مؤشر قوة كلمة المرور
+    // ========== الإضافات الجديدة (بدون أي بيانات تسجيل دخول ظاهرة) ==========
+    // 1. مؤشر قوة كلمة المرور (تم تطويره)
     function checkStrength(password) {
         let strength = 0;
-        if (password.length >= 4) strength += 1;
-        if (password.length >= 8) strength += 1;
+        if (password.length >= 6) strength += 1;
+        if (password.length >= 10) strength += 1;
         if (/[A-Za-z]/.test(password) && /[0-9]/.test(password)) strength += 1;
-        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
-        if (password.length >= 12) strength += 1;
+        if (/[!@#$%^&*(),.?":{}|<>_\-]/.test(password)) strength += 1;
+        if (password.length >= 14) strength += 1;
         return Math.min(strength, 4);
     }
 
@@ -838,7 +847,7 @@
     passwordInput.addEventListener('input', updateStrengthMeter);
     updateStrengthMeter();
 
-    // 2. تذكرني (حفظ اسم المستخدم)
+    // 2. تذكرني (حفظ اسم المستخدم فقط، بدون كلمة المرور)
     const rememberCheck = document.getElementById('rememberCheckbox');
     function loadRememberedUser() {
         const flag = localStorage.getItem('rememberMeFlag');
@@ -859,25 +868,7 @@
     }
     loadRememberedUser();
 
-    // عند النجاح نقوم بتحديث الوقت في حالة الدخول (تم إدراجها في validateAndLogin الأصلية)
-    // لكن نضيف أيضاً حفظ للذكر إذا تم التحديث يدوياً.
-
-    // 3. تعبئة بيانات تجريبية
-    document.getElementById('fillDemoBtn').addEventListener('click', () => {
-        usernameInput.value = VALID_USERNAME;
-        passwordInput.value = VALID_PASSWORD;
-        updateStrengthMeter();
-        subtleSuccessPreview();
-        Toastify({
-            text: "✨ تم تعبئة بيانات الدخول التجريبية",
-            duration: 2000,
-            gravity: "top",
-            position: "center",
-            style: { background: "#1f8a7c", borderRadius: "40px", direction: "rtl" }
-        }).showToast();
-    });
-
-    // 4. مودال نسيت كلمة المرور
+    // 3. مودال نسيان كلمة المرور (بدون أي بيانات)
     const modal = document.getElementById('forgotModal');
     const forgotBtn = document.getElementById('forgotPasswordBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -893,25 +884,11 @@
         if(e.target === modal) closeModal();
     });
 
-    // 5. تحسين بسيط: إذا كان هناك تعبئة تلقائية للمتصفح نحدث القوة
-    window.addEventListener('load', () => {
-        updateStrengthMeter();
-        if(usernameInput.value === VALID_USERNAME && passwordInput.value === VALID_PASSWORD) subtleSuccessPreview();
-    });
-
-    // 6. إضافة تأثير تموج لطيف عند النقر على زر الدخول
-    const loginBtn = document.querySelector('.login-btn');
+    // 4. تأثير تموج عند النقر على الزر (محسن)
     loginBtn.addEventListener('click', (e) => {
+        if(loginBtn.classList.contains('btn-loading')) return;
         let ripple = document.createElement('span');
         ripple.classList.add('ripple-effect');
-        ripple.style.position = 'absolute';
-        ripple.style.borderRadius = '50%';
-        ripple.style.backgroundColor = 'rgba(255,255,255,0.4)';
-        ripple.style.width = '10px';
-        ripple.style.height = '10px';
-        ripple.style.transform = 'scale(0)';
-        ripple.style.transition = 'transform 0.4s, opacity 0.5s';
-        ripple.style.pointerEvents = 'none';
         const rect = loginBtn.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
         ripple.style.width = ripple.style.height = `${size}px`;
@@ -919,23 +896,42 @@
         const y = e.clientY - rect.top - size/2;
         ripple.style.left = `${x}px`;
         ripple.style.top = `${y}px`;
-        loginBtn.style.position = 'relative';
         loginBtn.appendChild(ripple);
         setTimeout(() => ripple.remove(), 500);
     });
 
-    // نمط إضافي للتموج (ديناميكي)
+    // نمط إضافي للتموج
     const extraStyle = document.createElement('style');
     extraStyle.textContent = `.ripple-effect { position: absolute; background: rgba(255,255,240,0.5); border-radius: 50%; transform: scale(0); animation: rippleAnim 0.5s linear; pointer-events: none; } @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } } .login-btn { overflow: hidden; }`;
     document.head.appendChild(extraStyle);
 
-    // 7. تحديث معلومات آخر دخول ديناميكياً لو تم تغيير localStorage من أي مكان
+    // 5. تحديث معلومات آخر دخول ديناميكياً
     window.addEventListener('storage', (e) => {
         if(e.key === 'lastLoginTime') {
             const newTime = localStorage.getItem('lastLoginTime');
             if(newTime) document.getElementById('lastLoginText').innerHTML = `آخر دخول: ${newTime}`;
         }
     });
+
+    // 6. إضافة أنيميشن فوري عند تحميل الصفحة للعناصر (تم بالفعل عن طريق CSS)
+    // 7. تحسين تفاعلي: تغيير لون الأيقونة عند التركيز
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(inp => {
+        inp.addEventListener('focus', () => {
+            const parent = inp.closest('.input-group');
+            if(parent) {
+                const icon = parent.querySelector('i:first-child');
+                if(icon) icon.style.color = "#7efff5";
+            }
+        });
+        inp.addEventListener('blur', () => {
+            const parent = inp.closest('.input-group');
+            if(parent) {
+                const icon = parent.querySelector('i:first-child');
+                if(icon) icon.style.color = "#2ed5d2";
+            }
+        });
+    });
 </script>
 </body>
-</html>
+    </html>
