@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>تسجيل الدخول | مصنع الحرمين للبلاستيك</title>
+    <!-- Google Fonts - Cairo (عربية حديثة) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (أيقونات احترافية) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Animate.css (أنيميشن احترافية) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Toastify (مكتبة رسائل بديلة عن SweetAlert) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        /* خلفية متحركة ديناميكية (جزيئات ضوئية) محسنة للأداء */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-animation .particle {
+            position: absolute;
+            background: rgba(46, 213, 210, 0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle 18s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-20vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* الحاوية الرئيسية - متجاوبة بالكامل */
+        .login-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeInUp 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* كارد زجاجي محسن للهواتف */
+        .glass-card {
+            background: rgba(15, 25, 35, 0.8);
+            backdrop-filter: blur(14px);
+            border-radius: 42px;
+            border: 1px solid rgba(46, 213, 210, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(46, 213, 210, 0.1) inset;
+            padding: 2rem 1.8rem 2.5rem;
+            transition: all 0.4s ease;
+        }
+
+        @media (max-width: 550px) {
+            .glass-card {
+                padding: 1.6rem 1.2rem 2rem;
+                border-radius: 32px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .glass-card {
+                padding: 1.2rem 1rem 1.8rem;
+            }
+        }
+
+        .glass-card:hover {
+            border-color: rgba(46, 213, 210, 0.6);
+            box-shadow: 0 30px 55px -15px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(46, 213, 210, 0.2) inset;
+        }
+
+        /* الشعار والنص */
+        .logo-area {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .factory-icon {
+            font-size: 3.8rem;
+            color: #2ed5d2;
+            text-shadow: 0 0 12px rgba(46, 213, 210, 0.6);
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: pulseGlow 2.2s infinite alternate;
+        }
+
+        @media (max-width: 480px) {
+            .factory-icon {
+                font-size: 3rem;
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                text-shadow: 0 0 2px #2ed5d2;
+                transform: scale(1);
+            }
+            100% {
+                text-shadow: 0 0 20px #2ed5d2, 0 0 5px #0afff0;
+                transform: scale(1.02);
+            }
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFFFFF, #a0f0ed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        .sub {
+            color: #a0b3c9;
+            font-size: 0.8rem;
+            font-weight: 400;
+            border-top: 1px dashed rgba(46, 213, 210, 0.4);
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+
+        /* حقول الإدخال - تحسين اللمس والمساحات */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group i:first-child {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2ed5d2;
+            font-size: 1.2rem;
+            transition: 0.2s;
+            pointer-events: none;
+        }
+
+        /* زر إظهار كلمة المرور - محسن للمس */
+        .toggle-password {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #8e9cb0;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: 0.2s;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        /* تحسين منطقة اللمس للهواتف */
+        @media (max-width: 640px) {
+            .toggle-password {
+                width: 44px;
+                height: 44px;
+                left: 12px;
+            }
+            .input-group i:first-child {
+                right: 14px;
+            }
+        }
+
+        .toggle-password:hover {
+            color: #2ed5d2;
+            background: rgba(46, 213, 210, 0.1);
+        }
+
+        .toggle-password:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        input {
+            width: 100%;
+            background: rgba(10, 20, 30, 0.7);
+            border: 1.5px solid rgba(46, 213, 210, 0.3);
+            padding: 1rem 3rem 1rem 3.2rem;
+            font-size: 1rem;
+            font-family: 'Cairo', sans-serif;
+            color: #f0f3fa;
+            border-radius: 60px;
+            outline: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* تحسين padding للهواتف الصغيرة */
+        @media (max-width: 480px) {
+            input {
+                padding: 0.9rem 2.8rem 0.9rem 3rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        input:focus {
+            border-color: #2ed5d2;
+            box-shadow: 0 0 12px rgba(46, 213, 210, 0.4);
+            background: rgba(15, 30, 45, 0.95);
+        }
+
+        input::placeholder {
+            color: #7c8ba0;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        /* زر تسجيل الدخول - مناسب للمس */
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(95deg, #1a887f, #2ed5d2);
+            border: none;
+            padding: 0.9rem 1rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            color: #021018;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+            margin-top: 0.5rem;
+        }
+
+        @media (max-width: 480px) {
+            .login-btn {
+                padding: 0.8rem 1rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        .login-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(95deg, #23b2ae, #3ce4e0);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.4);
+        }
+
+        .login-btn:hover i {
+            transform: translateX(-5px);
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* اهتزاز عند الخطأ */
+        .shake-effect {
+            animation: shakeBox 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        }
+
+        @keyframes shakeBox {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-4px); }
+            80% { transform: translateX(4px); }
+        }
+
+        /* تذييل */
+        .footer-note {
+            text-align: center;
+            margin-top: 1.8rem;
+            font-size: 0.75rem;
+            color: #5d6f88;
+        }
+
+        .footer-note a {
+            color: #2ed5d2;
+            text-decoration: none;
+        }
+
+        /* تحسينات إضافية للشاشات الصغيرة جداً */
+        @media (max-width: 360px) {
+            .login-btn {
+                font-size: 1rem;
+                gap: 8px;
+            }
+            .sub {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-animation" id="particlesContainer"></div>
+
+<div class="login-container animate__animated animate__fadeInUp">
+    <div class="glass-card">
+        <div class="logo-area">
+            <div class="factory-icon">
+                <i class="fas fa-industry"></i>
+            </div>
+            <h1>مصنع الحرمين للبلاستيك</h1>
+            <div class="sub">نحو صناعة بلاستيكية مبتكرة</div>
+        </div>
+
+        <form id="loginForm" action="#" method="post">
+            <div class="input-group">
+                <i class="fas fa-user-circle"></i>
+                <input type="text" id="username" placeholder="اسم المستخدم" autocomplete="off" value="">
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="كلمة المرور">
+                <span class="toggle-password" id="togglePassword">
+                    <i class="far fa-eye-slash"></i>
+                </span>
+            </div>
+            <button type="submit" class="login-btn">
+                <span>دخول</span>
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </form>
+
+        <div class="footer-note">
+            <span> ⚙️ نظام إدارة المصنع الآمن</span>
+        </div>
+    </div>
+</div>
+
+<!-- مكتبات JS احترافية -->
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    // إعداد الجزيئات المتحركة للخلفية
+    function createParticles() {
+        const container = document.getElementById('particlesContainer');
+        const particleCount = 70;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.animationDuration = `${Math.random() * 12 + 8}s`;
+            particle.style.animationDelay = `${Math.random() * 15}s`;
+            particle.style.opacity = Math.random() * 0.5 + 0.1;
+            particle.style.background = `rgba(46, 213, 210, ${Math.random() * 0.5 + 0.2})`;
+            container.appendChild(particle);
+        }
+    }
+    createParticles();
+
+    // عناصر DOM
+    const loginForm = document.getElementById('loginForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    const glassCard = document.querySelector('.glass-card');
+
+    // بيانات الاعتماد الصحيحة
+    const VALID_USERNAME = "admin";
+    const VALID_PASSWORD = "405190";
+    // الرابط المستهدف الجديد
+    const TARGET_URL = "https://mohammed-alaa-mohammed.github.io/Al-Haramain-Factory-System-/#";
+
+    // وظيفة عرض رسالة خطأ باستخدام Toastify
+    function showErrorToast(message) {
+        Toastify({
+            text: message,
+            duration: 3200,
+            close: true,
+            gravity: "top",
+            position: "center",
+            stopOnFocus: true,
+            style: {
+                background: "linear-gradient(135deg, #c92a2a, #e03131)",
+                borderRadius: "40px",
+                fontFamily: "'Cairo', sans-serif",
+                fontSize: "1rem",
+                padding: "12px 24px",
+                boxShadow: "0 10px 25px -5px rgba(0,0,0,0.3)",
+                border: "1px solid #ff8787",
+                direction: "rtl"
+            },
+        }).showToast();
+    }
+
+    // وظيفة اهتزاز الكارد عند الخطأ
+    function shakeLoginCard() {
+        glassCard.classList.add('shake-effect');
+        setTimeout(() => {
+            glassCard.classList.remove('shake-effect');
+        }, 450);
+        usernameInput.style.borderColor = "#ff6b6b";
+        passwordInput.style.borderColor = "#ff6b6b";
+        setTimeout(() => {
+            usernameInput.style.borderColor = "rgba(46, 213, 210, 0.3)";
+            passwordInput.style.borderColor = "rgba(46, 213, 210, 0.3)";
+        }, 800);
+    }
+
+    // التحقق من صحة الإدخالات
+    function validateAndLogin(event) {
+        event.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value;
+
+        if (username === "") {
+            showErrorToast("⚠️ يرجى إدخال اسم المستخدم");
+            shakeLoginCard();
+            usernameInput.focus();
+            return;
+        }
+        if (password === "") {
+            showErrorToast("⚠️ يرجى إدخال كلمة المرور");
+            shakeLoginCard();
+            passwordInput.focus();
+            return;
+        }
+
+        if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+            Toastify({
+                text: "✅ تم التحقق بنجاح... جاري التوجيه للمصنع الرقمي",
+                duration: 1500,
+                close: false,
+                gravity: "top",
+                position: "center",
+                style: {
+                    background: "linear-gradient(135deg, #0f9b8e, #1ba89a)",
+                    borderRadius: "40px",
+                    fontFamily: "'Cairo', sans-serif",
+                    fontWeight: "bold",
+                    direction: "rtl"
+                },
+            }).showToast();
+
+            setTimeout(() => {
+                window.location.href = TARGET_URL;
+            }, 1500);
+        } else {
+            showErrorToast("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
+            shakeLoginCard();
+            passwordInput.value = "";
+            passwordInput.focus();
+        }
+    }
+
+    // إظهار / إخفاء كلمة المرور (محسن للمس)
+    togglePasswordBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        const icon = this.querySelector('i');
+        if (type === 'text') {
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        } else {
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        }
+    });
+
+    // منع إرسال النموذج بالطريقة التقليدية
+    loginForm.addEventListener('submit', validateAndLogin);
+
+    // دعم الضغط على مفتاح Enter
+    document.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            if (document.activeElement === usernameInput || document.activeElement === passwordInput) {
+                validateAndLogin(event);
+            }
+        }
+    });
+
+    // تأثيرات إضافية: تغيير لون الحواف عند كتابة البيانات الصحيحة
+    function subtleSuccessPreview() {
+        let uname = usernameInput.value.trim();
+        let pwd = passwordInput.value;
+        if (uname === VALID_USERNAME && pwd === VALID_PASSWORD) {
+            glassCard.style.boxShadow = "0 0 0 2px rgba(46, 213, 210, 0.7), 0 25px 50px -12px black";
+        } else {
+            glassCard.style.boxShadow = "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(46, 213, 210, 0.1) inset";
+        }
+    }
+    usernameInput.addEventListener('input', subtleSuccessPreview);
+    passwordInput.addEventListener('input', subtleSuccessPreview);
+
+    // حركة خلفية بسيطة مع الماوس (لإحساس احترافي)
+    let mouseX = 0, mouseY = 0;
+    document.body.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+        const bgAnimation = document.querySelector('.bg-animation');
+        if (bgAnimation) {
+            bgAnimation.style.transform = `translate(${mouseX * 5}px, ${mouseY * 5}px)`;
+            bgAnimation.style.transition = 'transform 0.1s ease-out';
+        }
+    });
+
+    // تحسينات إضافية للهواتف: إزالة حركة الخلفية على اللمس لتجنب الاستهلاك
+    if ('ontouchstart' in window) {
+        document.body.addEventListener('touchmove', (e) => {
+            // لا تفعل شيئاً ثقيلاً، فقط نمنع الترجمة الزائدة
+            const bgAnimation = document.querySelector('.bg-animation');
+            if (bgAnimation) bgAnimation.style.transform = 'none';
+        });
+    }
+
+    // رسالة ترحيبية في وحدة التحكم
+    console.log("%c⚠️ نظام دخول آمن | مصنع الحرمين للبلاستيك", "color: #2ed5d2; font-size: 16px; font-weight: bold;");
+    console.log("%cبيانات الدخول خاصة بالموظفين المصرح لهم فقط", "color: #ffaa44;");
+
+    // أنماط إضافية لتحسين مظهر التوست
+    const style = document.createElement('style');
+    style.textContent = `
+        .glass-card {
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:focus {
+            transition: background-color 0s 600000s, color 0s 600000s;
+        }
+        input:-webkit-autofill {
+            -webkit-text-fill-color: #f0f3fa !important;
+            caret-color: #2ed5d2;
+        }
+        .toastify {
+            font-weight: 600;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 12px 25px -10px black;
+        }
+        .toastify-close {
+            color: white;
+            opacity: 0.8;
+            font-size: 1.2rem;
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+</body>
+</html>
