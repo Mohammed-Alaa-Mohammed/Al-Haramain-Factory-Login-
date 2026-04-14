@@ -34,11 +34,11 @@
             overflow-x: hidden;
             padding: 1rem;
         }
-        /* الوضع الداكن (الأساسي) */
+        /* الوضع الداكن (الأساسي - الافتراضي) */
         body.dark-mode {
             background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
         }
-        /* الوضع الفاتح */
+        /* الوضع الفاتح (الساطع) */
         body.light-mode {
             background: radial-gradient(circle at 20% 30%, #e0e8f5, #b0c4de);
         }
@@ -1044,7 +1044,7 @@
         });
     });
 
-    // ========== تبديل الوضع الفاتح/الداكن ==========
+    // ========== تبديل الوضع الفاتح/الداكن (الافتراضي داكن) ==========
     const themeToggle = document.getElementById('themeToggle');
     function setTheme(theme) {
         if (theme === 'light') {
@@ -1059,10 +1059,12 @@
             themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>الوضع الفاتح</span>';
         }
     }
+    // التحقق من التفضيل المخزن، وإلا تطبيق الوضع الداكن افتراضياً
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme === 'light') {
         setTheme('light');
     } else {
+        // إذا لم يكن هناك تفضيل أو كان مخزناً داكن، نطبق الداكن (الافتراضي)
         setTheme('dark');
     }
     themeToggle.addEventListener('click', () => {
@@ -1088,4 +1090,4 @@
     }, 500);
 </script>
 </body>
-</html>
+    </html>
