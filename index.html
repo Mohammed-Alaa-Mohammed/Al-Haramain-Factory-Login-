@@ -359,6 +359,181 @@
                 font-size: 0.7rem;
             }
         }
+
+        /* ========== إضافات جديدة محافظة على التنسيق ========== */
+        /* صف الخيارات (تذكرني ونسيت كلمة المرور) */
+        .options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 0.5rem 0 1rem 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: #b8ccf0;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .remember-me input {
+            width: 18px;
+            height: 18px;
+            accent-color: #2ed5d2;
+            margin: 0;
+            padding: 0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .forgot-link {
+            color: #2ed5d2;
+            font-size: 0.85rem;
+            text-decoration: none;
+            background: rgba(46, 213, 210, 0.1);
+            padding: 5px 12px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        .forgot-link:hover {
+            background: rgba(46, 213, 210, 0.3);
+            text-shadow: 0 0 3px #2ed5d2;
+        }
+        /* مؤشر قوة كلمة المرور */
+        .strength-container {
+            margin: -0.8rem 0 1rem 0;
+        }
+        .strength-meter {
+            height: 4px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        .strength-fill {
+            width: 0%;
+            height: 100%;
+            transition: width 0.3s ease, background 0.2s;
+            border-radius: 10px;
+        }
+        .strength-text {
+            font-size: 0.7rem;
+            color: #8da3c2;
+            display: flex;
+            justify-content: flex-end;
+        }
+        /* بطاقة البيانات التجريبية */
+        .demo-badge {
+            background: rgba(46, 213, 210, 0.12);
+            border: 1px dashed rgba(46, 213, 210, 0.5);
+            border-radius: 60px;
+            padding: 8px 15px;
+            margin: 1rem 0 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.75rem;
+            color: #bfd9ff;
+        }
+        .demo-creds {
+            font-family: monospace;
+            background: #0e1a24;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+        .fill-demo-btn {
+            background: rgba(46, 213, 210, 0.2);
+            border: none;
+            color: #2ed5d2;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Cairo', sans-serif;
+        }
+        .fill-demo-btn:hover {
+            background: #2ed5d2;
+            color: #021018;
+            transform: scale(0.97);
+        }
+        /* معلومات آخر دخول */
+        .last-login-info {
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.7rem;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            width: auto;
+            backdrop-filter: blur(4px);
+        }
+        /* مودال نسيان كلمة المرور */
+        .modal-forgot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.25s ease;
+        }
+        .modal-forgot.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-content {
+            background: rgba(15, 25, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid #2ed5d2;
+            border-radius: 38px;
+            padding: 1.8rem;
+            width: 85%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.5);
+            animation: fadeScale 0.2s ease;
+        }
+        @keyframes fadeScale {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h4 {
+            color: #2ed5d2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        .modal-content p {
+            color: #ccdeff;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        .modal-close {
+            background: #2ed5d2;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            font-family: 'Cairo', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -387,15 +562,53 @@
                     <i class="far fa-eye-slash"></i>
                 </span>
             </div>
+            <!-- صف الخيارات الجديد -->
+            <div class="options-row">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberCheckbox"> <span>تذكرني</span>
+                </label>
+                <a href="#" id="forgotPasswordBtn" class="forgot-link">نسيت كلمة المرور؟</a>
+            </div>
+            <!-- مؤشر قوة كلمة المرور -->
+            <div class="strength-container" id="strengthContainer">
+                <div class="strength-meter">
+                    <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <div class="strength-text" id="strengthText">أدخل كلمة المرور</div>
+            </div>
             <button type="submit" class="login-btn">
                 <span>دخول</span>
                 <i class="fas fa-arrow-left"></i>
             </button>
         </form>
 
+        <!-- بطاقة البيانات التجريبية الذكية -->
+        <div class="demo-badge">
+            <span><i class="fas fa-flask"></i> بيانات تجريبية:</span>
+            <span class="demo-creds">admin / 405190</span>
+            <button type="button" id="fillDemoBtn" class="fill-demo-btn"><i class="fas fa-pen"></i> تعبئة تلقائي</button>
+        </div>
+
+        <!-- معلومات آخر دخول -->
+        <div id="lastLoginArea" class="last-login-info" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+            <i class="fas fa-history"></i> <span id="lastLoginText">لم تسجل دخول سابقاً</span>
+        </div>
+
         <div class="footer-note">
             <span> ⚙️ نظام إدارة المصنع الآمن</span>
         </div>
+    </div>
+</div>
+
+<!-- مودال نسيان كلمة المرور (إضافة رائعة) -->
+<div id="forgotModal" class="modal-forgot">
+    <div class="modal-content">
+        <i class="fas fa-key" style="font-size: 2rem; color:#2ed5d2;"></i>
+        <h4>استعادة الوصول</h4>
+        <p>بيانات الدخول الافتراضية للنظام:</p>
+        <p style="background: #0a111c; padding: 8px; border-radius: 60px;"><strong>👤 اسم المستخدم:</strong> admin<br> <strong>🔒 كلمة المرور:</strong> 405190</p>
+        <p>يرجى التواصل مع مدير النظام إذا واجهت مشكلة.</p>
+        <button class="modal-close" id="closeModalBtn">فهمت ✓</button>
     </div>
 </div>
 
@@ -432,7 +645,6 @@
     // بيانات الاعتماد الصحيحة
     const VALID_USERNAME = "admin";
     const VALID_PASSWORD = "405190";
-    // الرابط المستهدف الجديد
     const TARGET_URL = "https://mohammed-alaa-mohammed.github.io/Al-Haramain-Factory-System-/#";
 
     // وظيفة عرض رسالة خطأ باستخدام Toastify
@@ -471,7 +683,7 @@
         }, 800);
     }
 
-    // التحقق من صحة الإدخالات
+    // التحقق من صحة الإدخالات (الأصلي)
     function validateAndLogin(event) {
         event.preventDefault();
 
@@ -492,6 +704,18 @@
         }
 
         if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+            // تسجيل وقت آخر دخول ناجح في localStorage
+            const now = new Date();
+            const formatted = `${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}`;
+            localStorage.setItem('lastLoginTime', formatted);
+            if(document.getElementById('rememberCheckbox').checked) {
+                localStorage.setItem('rememberedUser', username);
+                localStorage.setItem('rememberMeFlag', 'true');
+            } else {
+                localStorage.removeItem('rememberedUser');
+                localStorage.setItem('rememberMeFlag', 'false');
+            }
+
             Toastify({
                 text: "✅ تم التحقق بنجاح... جاري التوجيه للمصنع الرقمي",
                 duration: 1500,
@@ -533,10 +757,8 @@
         }
     });
 
-    // منع إرسال النموذج بالطريقة التقليدية
     loginForm.addEventListener('submit', validateAndLogin);
 
-    // دعم الضغط على مفتاح Enter
     document.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -546,7 +768,6 @@
         }
     });
 
-    // تأثيرات إضافية: تغيير لون الحواف عند كتابة البيانات الصحيحة
     function subtleSuccessPreview() {
         let uname = usernameInput.value.trim();
         let pwd = passwordInput.value;
@@ -559,7 +780,6 @@
     usernameInput.addEventListener('input', subtleSuccessPreview);
     passwordInput.addEventListener('input', subtleSuccessPreview);
 
-    // حركة خلفية بسيطة مع الماوس (لإحساس احترافي)
     let mouseX = 0, mouseY = 0;
     document.body.addEventListener('mousemove', (e) => {
         mouseX = e.clientX / window.innerWidth;
@@ -571,45 +791,151 @@
         }
     });
 
-    // تحسينات إضافية للهواتف: إزالة حركة الخلفية على اللمس لتجنب الاستهلاك
     if ('ontouchstart' in window) {
         document.body.addEventListener('touchmove', (e) => {
-            // لا تفعل شيئاً ثقيلاً، فقط نمنع الترجمة الزائدة
             const bgAnimation = document.querySelector('.bg-animation');
             if (bgAnimation) bgAnimation.style.transform = 'none';
         });
     }
 
-    // رسالة ترحيبية في وحدة التحكم
     console.log("%c⚠️ نظام دخول آمن | مصنع الحرمين للبلاستيك", "color: #2ed5d2; font-size: 16px; font-weight: bold;");
     console.log("%cبيانات الدخول خاصة بالموظفين المصرح لهم فقط", "color: #ffaa44;");
 
-    // أنماط إضافية لتحسين مظهر التوست
-    const style = document.createElement('style');
-    style.textContent = `
-        .glass-card {
-            transition: box-shadow 0.2s, border-color 0.2s;
+    // ========== الإضافات الجديدة والتطويرات ==========
+    // 1. مؤشر قوة كلمة المرور
+    function checkStrength(password) {
+        let strength = 0;
+        if (password.length >= 4) strength += 1;
+        if (password.length >= 8) strength += 1;
+        if (/[A-Za-z]/.test(password) && /[0-9]/.test(password)) strength += 1;
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 1;
+        if (password.length >= 12) strength += 1;
+        return Math.min(strength, 4);
+    }
+
+    function updateStrengthMeter() {
+        const pwd = passwordInput.value;
+        const strengthVal = checkStrength(pwd);
+        const fillEl = document.getElementById('strengthFill');
+        const textEl = document.getElementById('strengthText');
+        let width = 0, color = "#5d6f88", msg = "";
+        if(pwd.length === 0) {
+            width = 0; color = "#5d6f88"; msg = "🔒 أدخل كلمة المرور";
+        } else {
+            switch(strengthVal) {
+                case 1: width = 25; color = "#e36161"; msg = "ضعيفة"; break;
+                case 2: width = 50; color = "#f4b942"; msg = "متوسطة"; break;
+                case 3: width = 75; color = "#6bc46d"; msg = "جيدة"; break;
+                case 4: width = 100; color = "#2ed5d2"; msg = "قوية جداً"; break;
+                default: width = 10; color = "#a9705c"; msg = "قصيرة";
+            }
         }
-        input:-webkit-autofill,
-        input:-webkit-autofill:focus {
-            transition: background-color 0s 600000s, color 0s 600000s;
+        fillEl.style.width = `${width}%`;
+        fillEl.style.backgroundColor = color;
+        if(pwd.length > 0) textEl.innerHTML = `⚡ قوة المرور: ${msg}`;
+        else textEl.innerHTML = "📝 أدخل كلمة المرور";
+    }
+    passwordInput.addEventListener('input', updateStrengthMeter);
+    updateStrengthMeter();
+
+    // 2. تذكرني (حفظ اسم المستخدم)
+    const rememberCheck = document.getElementById('rememberCheckbox');
+    function loadRememberedUser() {
+        const flag = localStorage.getItem('rememberMeFlag');
+        const savedUser = localStorage.getItem('rememberedUser');
+        if(flag === 'true' && savedUser) {
+            usernameInput.value = savedUser;
+            rememberCheck.checked = true;
+        } else {
+            rememberCheck.checked = false;
         }
-        input:-webkit-autofill {
-            -webkit-text-fill-color: #f0f3fa !important;
-            caret-color: #2ed5d2;
+        // عرض آخر وقت دخول
+        const lastTime = localStorage.getItem('lastLoginTime');
+        if(lastTime) {
+            document.getElementById('lastLoginText').innerHTML = `آخر دخول: ${lastTime}`;
+        } else {
+            document.getElementById('lastLoginText').innerHTML = 'لم تسجل دخول سابقاً';
         }
-        .toastify {
-            font-weight: 600;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 12px 25px -10px black;
+    }
+    loadRememberedUser();
+
+    // عند النجاح نقوم بتحديث الوقت في حالة الدخول (تم إدراجها في validateAndLogin الأصلية)
+    // لكن نضيف أيضاً حفظ للذكر إذا تم التحديث يدوياً.
+
+    // 3. تعبئة بيانات تجريبية
+    document.getElementById('fillDemoBtn').addEventListener('click', () => {
+        usernameInput.value = VALID_USERNAME;
+        passwordInput.value = VALID_PASSWORD;
+        updateStrengthMeter();
+        subtleSuccessPreview();
+        Toastify({
+            text: "✨ تم تعبئة بيانات الدخول التجريبية",
+            duration: 2000,
+            gravity: "top",
+            position: "center",
+            style: { background: "#1f8a7c", borderRadius: "40px", direction: "rtl" }
+        }).showToast();
+    });
+
+    // 4. مودال نسيت كلمة المرور
+    const modal = document.getElementById('forgotModal');
+    const forgotBtn = document.getElementById('forgotPasswordBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    forgotBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        modal.classList.add('active');
+    });
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if(e.target === modal) closeModal();
+    });
+
+    // 5. تحسين بسيط: إذا كان هناك تعبئة تلقائية للمتصفح نحدث القوة
+    window.addEventListener('load', () => {
+        updateStrengthMeter();
+        if(usernameInput.value === VALID_USERNAME && passwordInput.value === VALID_PASSWORD) subtleSuccessPreview();
+    });
+
+    // 6. إضافة تأثير تموج لطيف عند النقر على زر الدخول
+    const loginBtn = document.querySelector('.login-btn');
+    loginBtn.addEventListener('click', (e) => {
+        let ripple = document.createElement('span');
+        ripple.classList.add('ripple-effect');
+        ripple.style.position = 'absolute';
+        ripple.style.borderRadius = '50%';
+        ripple.style.backgroundColor = 'rgba(255,255,255,0.4)';
+        ripple.style.width = '10px';
+        ripple.style.height = '10px';
+        ripple.style.transform = 'scale(0)';
+        ripple.style.transition = 'transform 0.4s, opacity 0.5s';
+        ripple.style.pointerEvents = 'none';
+        const rect = loginBtn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        ripple.style.width = ripple.style.height = `${size}px`;
+        const x = e.clientX - rect.left - size/2;
+        const y = e.clientY - rect.top - size/2;
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        loginBtn.style.position = 'relative';
+        loginBtn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
+    });
+
+    // نمط إضافي للتموج (ديناميكي)
+    const extraStyle = document.createElement('style');
+    extraStyle.textContent = `.ripple-effect { position: absolute; background: rgba(255,255,240,0.5); border-radius: 50%; transform: scale(0); animation: rippleAnim 0.5s linear; pointer-events: none; } @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } } .login-btn { overflow: hidden; }`;
+    document.head.appendChild(extraStyle);
+
+    // 7. تحديث معلومات آخر دخول ديناميكياً لو تم تغيير localStorage من أي مكان
+    window.addEventListener('storage', (e) => {
+        if(e.key === 'lastLoginTime') {
+            const newTime = localStorage.getItem('lastLoginTime');
+            if(newTime) document.getElementById('lastLoginText').innerHTML = `آخر دخول: ${newTime}`;
         }
-        .toastify-close {
-            color: white;
-            opacity: 0.8;
-            font-size: 1.2rem;
-        }
-    `;
-    document.head.appendChild(style);
+    });
 </script>
 </body>
 </html>
