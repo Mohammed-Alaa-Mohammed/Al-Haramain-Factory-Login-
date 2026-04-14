@@ -22,9 +22,10 @@
             box-sizing: border-box;
         }
 
+        /* ========== نظام الوضع الفاتح/الداكن ========== */
         body {
             font-family: 'Cairo', sans-serif;
-            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
+            transition: background 0.3s ease, color 0.2s ease;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -32,6 +33,94 @@
             position: relative;
             overflow-x: hidden;
             padding: 1rem;
+        }
+        /* الوضع الداكن (الأساسي) */
+        body.dark-mode {
+            background: radial-gradient(circle at 20% 30%, #0a0f1e, #03050b);
+        }
+        /* الوضع الفاتح */
+        body.light-mode {
+            background: radial-gradient(circle at 20% 30%, #e0e8f5, #b0c4de);
+        }
+        /* تعديل ألوان الكارد حسب الوضع */
+        body.dark-mode .glass-card {
+            background: rgba(15, 25, 35, 0.8);
+            border: 1px solid rgba(46, 213, 210, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(46, 213, 210, 0.1) inset;
+        }
+        body.light-mode .glass-card {
+            background: rgba(245, 250, 255, 0.85);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(46, 213, 210, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(46, 213, 210, 0.2) inset;
+        }
+        body.light-mode input {
+            background: rgba(255, 255, 255, 0.8);
+            color: #1a2a3a;
+            border-color: rgba(46, 213, 210, 0.5);
+        }
+        body.light-mode input::placeholder {
+            color: #5a6e85;
+        }
+        body.light-mode .sub,
+        body.light-mode .remember-me,
+        body.light-mode .strength-text,
+        body.light-mode .footer-note,
+        body.light-mode .login-instructions span {
+            color: #1f2d3d;
+        }
+        body.light-mode .login-instructions {
+            background: rgba(46, 213, 210, 0.2);
+            border-color: rgba(46, 213, 210, 0.4);
+        }
+        body.light-mode .last-login-info {
+            background: rgba(0,0,0,0.1);
+            color: #1f2d3d;
+        }
+        body.light-mode .forgot-link {
+            background: rgba(46, 213, 210, 0.2);
+            color: #0f6b66;
+        }
+        body.light-mode .modal-content {
+            background: rgba(245, 250, 255, 0.95);
+        }
+        body.light-mode .modal-content p {
+            color: #1f2d3d;
+        }
+        /* زر التبديل بين الوضع الفاتح والداكن */
+        .theme-switch {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(46, 213, 210, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 50px;
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #2ed5d2;
+            border: 1px solid rgba(46, 213, 210, 0.5);
+            transition: 0.3s;
+        }
+        .theme-switch i {
+            font-size: 1.1rem;
+        }
+        .theme-switch:hover {
+            background: rgba(46, 213, 210, 0.4);
+            transform: scale(1.02);
+        }
+        @media (max-width: 550px) {
+            .theme-switch {
+                top: 12px;
+                left: 12px;
+                padding: 5px 12px;
+                font-size: 0.75rem;
+            }
         }
 
         /* خلفية متحركة ديناميكية (جزيئات ضوئية) محسنة للأداء */
@@ -52,6 +141,9 @@
             border-radius: 50%;
             pointer-events: none;
             animation: floatParticle 18s infinite linear;
+        }
+        body.light-mode .bg-animation .particle {
+            background: rgba(46, 213, 210, 0.3);
         }
 
         @keyframes floatParticle {
@@ -94,11 +186,7 @@
 
         /* كارد زجاجي محسن للهواتف */
         .glass-card {
-            background: rgba(15, 25, 35, 0.8);
-            backdrop-filter: blur(14px);
             border-radius: 42px;
-            border: 1px solid rgba(46, 213, 210, 0.3);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(46, 213, 210, 0.1) inset;
             padding: 2rem 1.8rem 2.5rem;
             transition: all 0.4s ease;
         }
@@ -163,6 +251,11 @@
             letter-spacing: -0.5px;
             margin-bottom: 0.25rem;
         }
+        body.light-mode h1 {
+            background: linear-gradient(135deg, #0a2a3a, #1a887f);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
 
         @media (max-width: 480px) {
             h1 {
@@ -183,6 +276,9 @@
             border-top: 1px dashed rgba(46, 213, 210, 0.4);
             display: inline-block;
             padding-top: 0.5rem;
+        }
+        body.light-mode .sub {
+            color: #2c4b5e;
         }
 
         /* حقول الإدخال - تحسين اللمس والمساحات */
@@ -220,10 +316,8 @@
             height: 40px;
             border-radius: 50%;
             background: transparent;
-            transition: all 0.2s ease;
         }
 
-        /* تحسين منطقة اللمس للهواتف */
         @media (max-width: 640px) {
             .toggle-password {
                 width: 44px;
@@ -251,7 +345,6 @@
             padding: 1rem 3rem 1rem 3.2rem;
             font-size: 1rem;
             font-family: 'Cairo', sans-serif;
-            color: #f0f3fa;
             border-radius: 60px;
             outline: none;
             transition: all 0.3s ease;
@@ -259,7 +352,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* تحسين padding للهواتف الصغيرة */
         @media (max-width: 480px) {
             input {
                 padding: 0.9rem 2.8rem 0.9rem 3rem;
@@ -272,14 +364,11 @@
             box-shadow: 0 0 12px rgba(46, 213, 210, 0.4);
             background: rgba(15, 30, 45, 0.95);
         }
-
-        input::placeholder {
-            color: #7c8ba0;
-            font-weight: 400;
-            font-size: 0.9rem;
+        body.light-mode input:focus {
+            background: rgba(255, 255, 255, 0.95);
         }
 
-        /* زر تسجيل الدخول - مناسب للمس */
+        /* زر تسجيل الدخول */
         .login-btn {
             width: 100%;
             background: linear-gradient(95deg, #1a887f, #2ed5d2);
@@ -354,19 +443,7 @@
             text-decoration: none;
         }
 
-        /* تحسينات إضافية للشاشات الصغيرة جداً */
-        @media (max-width: 360px) {
-            .login-btn {
-                font-size: 1rem;
-                gap: 8px;
-            }
-            .sub {
-                font-size: 0.7rem;
-            }
-        }
-
-        /* ========== إضافات جديدة محافظة على التنسيق ========== */
-        /* صف الخيارات (تذكرني ونسيت كلمة المرور) */
+        /* صف الخيارات */
         .options-row {
             display: flex;
             justify-content: space-between;
@@ -442,7 +519,7 @@
             width: auto;
             backdrop-filter: blur(4px);
         }
-        /* تعليمات تسجيل الدخول (جديدة) */
+        /* تعليمات تسجيل الدخول */
         .login-instructions {
             margin-top: 1rem;
             text-align: center;
@@ -462,7 +539,7 @@
             color: #2ed5d2;
             font-size: 0.8rem;
         }
-        /* مودال نسيان كلمة المرور (بدون إظهار بيانات) */
+        /* مودال نسيان كلمة المرور */
         .modal-forgot {
             position: fixed;
             top: 0;
@@ -519,7 +596,7 @@
             margin-top: 0.5rem;
             font-family: 'Cairo', sans-serif;
         }
-        /* أنيميشن إضافية: وميض للزر، تأثير كتابة، دوران خفيف للأيقونة */
+        /* أنيميشن إضافية */
         @keyframes btnPulse {
             0% { box-shadow: 0 0 0 0 rgba(46, 213, 210, 0.5); }
             70% { box-shadow: 0 0 0 10px rgba(46, 213, 210, 0); }
@@ -534,7 +611,6 @@
         input:focus + i:first-child {
             transform: translateY(-50%) scale(1.1);
         }
-        /* مؤشر تحميل مخصص داخل الزر */
         .btn-loading {
             pointer-events: none;
             opacity: 0.8;
@@ -546,7 +622,7 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        /* تحسينات إضافية لظهور العناصر بتأثير متتالي */
+        /* تأثير متتالي */
         .input-group, .options-row, .strength-container, .login-btn, .last-login-info, .login-instructions {
             animation: slideFade 0.5s ease backwards;
         }
@@ -563,9 +639,15 @@
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
 <div class="bg-animation" id="particlesContainer"></div>
+
+<!-- زر تبديل الوضع الفاتح/الداكن -->
+<div class="theme-switch" id="themeToggle">
+    <i class="fas fa-sun"></i>
+    <span>الوضع الفاتح</span>
+</div>
 
 <div class="login-container animate__animated animate__fadeInUp">
     <div class="glass-card">
@@ -589,14 +671,12 @@
                     <i class="far fa-eye-slash"></i>
                 </span>
             </div>
-            <!-- صف الخيارات الجديد -->
             <div class="options-row">
                 <label class="remember-me">
                     <input type="checkbox" id="rememberCheckbox"> <span>تذكرني</span>
                 </label>
                 <a href="#" id="forgotPasswordBtn" class="forgot-link">نسيت كلمة المرور؟</a>
             </div>
-            <!-- مؤشر قوة كلمة المرور -->
             <div class="strength-container" id="strengthContainer">
                 <div class="strength-meter">
                     <div class="strength-fill" id="strengthFill"></div>
@@ -609,14 +689,11 @@
             </button>
         </form>
 
-        <!-- تم حذف قسم البيانات التجريبية بالكامل بناءً على الطلب -->
-
         <!-- معلومات آخر دخول -->
         <div id="lastLoginArea" class="last-login-info" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
             <i class="fas fa-history"></i> <span style="color:#fff;" id="lastLoginText">لم تسجل دخول سابقاً</span>
         </div>
 
-        <!-- تعليمات تسجيل الدخول (جديدة) -->
         <div class="login-instructions">
             <i class="fas fa-info-circle"></i>
             <span>يرجى إدخال بيانات الدخول المخصصة للموظفين المصرح لهم فقط. تواصل مع مدير النظام في حال فقدان البيانات.</span>
@@ -628,7 +705,7 @@
     </div>
 </div>
 
-<!-- مودال نسيان كلمة المرور (بدون إظهار أي بيانات تسجيل دخول) -->
+<!-- مودال نسيان كلمة المرور -->
 <div id="forgotModal" class="modal-forgot">
     <div class="modal-content">
         <i class="fas fa-key" style="font-size: 2rem; color:#2ed5d2;"></i>
@@ -639,10 +716,9 @@
     </div>
 </div>
 
-<!-- مكتبات JS -->
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script>
-    // إعداد الجزيئات المتحركة للخلفية
+    // إعداد الجزيئات المتحركة
     function createParticles() {
         const container = document.getElementById('particlesContainer');
         const particleCount = 80;
@@ -670,12 +746,11 @@
     const glassCard = document.querySelector('.glass-card');
     const loginBtn = document.getElementById('loginBtn');
 
-    // بيانات الاعتماد الصحيحة
     const VALID_USERNAME = "admin";
     const VALID_PASSWORD = "alharamainfactory_2026_2027";
     const TARGET_URL = "https://mohammed-alaa-mohammed.github.io/Al-Haramain-Factory-System-/#";
 
-    // وظيفة عرض تنبيه خطأ باستخدام iziToast (بديل SweetAlert2)
+    // وظائف التنبيهات
     function showErrorToast(message) {
         iziToast.error({
             title: 'خطأ',
@@ -691,8 +766,6 @@
             rtl: true
         });
     }
-
-    // وظيفة عرض تنبيه نجاح
     function showSuccessToast(message) {
         iziToast.success({
             title: 'تم بنجاح',
@@ -708,7 +781,6 @@
         });
     }
 
-    // وظيفة اهتزاز الكارد عند الخطأ
     function shakeLoginCard() {
         glassCard.classList.add('shake-effect');
         setTimeout(() => {
@@ -722,32 +794,19 @@
         }, 800);
     }
 
-    // حفظ كامل البيانات (اسم المستخدم وكلمة المرور) في localStorage
-    function saveFullCredentials(username, password) {
-        localStorage.setItem('savedUsername', username);
-        localStorage.setItem('savedPassword', password);
-        localStorage.setItem('fullCredentialsSaved', 'true');
+    // حذف المدخلات تماماً (مسح الحقول)
+    function clearInputs() {
+        usernameInput.value = "";
+        passwordInput.value = "";
+        updateStrengthMeter();
+        subtleSuccessPreview();
     }
 
-    // تحميل البيانات المحفوظة وملء الحقول (إعادة تنشيط الصفحة)
-    function loadSavedCredentials() {
-        const savedUser = localStorage.getItem('savedUsername');
-        const savedPass = localStorage.getItem('savedPassword');
-        if (savedUser && savedPass) {
-            usernameInput.value = savedUser;
-            passwordInput.value = savedPass;
-            updateStrengthMeter();
-            subtleSuccessPreview();
-        }
-    }
-
-    // إعادة تنشيط الصفحة (تحديث) بعد حفظ البيانات
+    // تحديث الصفحة (تنشيط)
     function reactivatePage() {
-        // إعادة تحميل الصفحة الحالية لتطبيق البيانات المحفوظة
         window.location.reload();
     }
 
-    // التحقق من صحة الإدخالات مع حفظ البيانات وإعادة التنشيط
     async function validateAndLogin(event) {
         event.preventDefault();
 
@@ -773,7 +832,7 @@
             const formatted = `${now.toLocaleDateString('ar-EG')} - ${now.toLocaleTimeString('ar-EG')}`;
             localStorage.setItem('lastLoginTime', formatted);
             
-            // حفظ تذكرني (اسم المستخدم فقط للعرض)
+            // تذكرني (حفظ اسم المستخدم فقط)
             if(document.getElementById('rememberCheckbox').checked) {
                 localStorage.setItem('rememberedUser', username);
                 localStorage.setItem('rememberMeFlag', 'true');
@@ -782,28 +841,26 @@
                 localStorage.setItem('rememberMeFlag', 'false');
             }
             
-            // حفظ كامل بيانات الإدخال (اسم المستخدم وكلمة المرور) كما هو مطلوب
-            saveFullCredentials(username, password);
-            
-            // إضافة تأثير تحميل على الزر
+            // إضافة تأثير تحميل
             const originalContent = loginBtn.innerHTML;
             loginBtn.innerHTML = '<i class="fas fa-spinner"></i> جاري التوجيه...';
             loginBtn.classList.add('btn-loading');
             
-            showSuccessToast("✅ تم التحقق بنجاح! جاري حفظ البيانات وإعادة تنشيط الصفحة...");
+            showSuccessToast("✅ تم التحقق بنجاح! جاري فتح النظام ومسح البيانات...");
             
             setTimeout(() => {
-                // فتح الرابط في نافذة جديدة (_blank)
+                // فتح الرابط في نافذة جديدة
                 window.open(TARGET_URL, '_blank');
-                // استعادة الزر مؤقتاً
                 loginBtn.innerHTML = originalContent;
                 loginBtn.classList.remove('btn-loading');
                 
-                // إعادة تنشيط الصفحة الحالية (تحديث) بعد فتح الرابط مباشرة
-                // هذا سيعيد تحميل الصفحة ويظهر البيانات المحفوظة في الحقول
+                // حذف المدخلات تماماً
+                clearInputs();
+                
+                // تنشيط الصفحة (إعادة تحميل) بعد مسح المدخلات
                 setTimeout(() => {
                     reactivatePage();
-                }, 500);
+                }, 300);
             }, 1500);
         } else {
             showErrorToast("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
@@ -814,7 +871,7 @@
         }
     }
 
-    // إظهار / إخفاء كلمة المرور
+    // إظهار/إخفاء كلمة المرور
     togglePasswordBtn.addEventListener('click', function(e) {
         e.preventDefault();
         const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -852,6 +909,7 @@
     usernameInput.addEventListener('input', subtleSuccessPreview);
     passwordInput.addEventListener('input', subtleSuccessPreview);
 
+    // حركة خلفية مع الماوس
     let mouseX = 0, mouseY = 0;
     document.body.addEventListener('mousemove', (e) => {
         mouseX = e.clientX / window.innerWidth;
@@ -862,7 +920,6 @@
             bgAnimation.style.transition = 'transform 0.1s ease-out';
         }
     });
-
     if ('ontouchstart' in window) {
         document.body.addEventListener('touchmove', (e) => {
             const bgAnimation = document.querySelector('.bg-animation');
@@ -870,11 +927,7 @@
         });
     }
 
-    console.log("%c⚠️ نظام دخول آمن | مصنع الحرمين للبلاستيك", "color: #2ed5d2; font-size: 16px; font-weight: bold;");
-    console.log("%cبيانات الدخول خاصة بالموظفين المصرح لهم فقط", "color: #ffaa44;");
-
-    // ========== الإضافات الجديدة ==========
-    // 1. مؤشر قوة كلمة المرور
+    // مؤشر قوة كلمة المرور
     function checkStrength(password) {
         let strength = 0;
         if (password.length >= 6) strength += 1;
@@ -884,7 +937,6 @@
         if (password.length >= 14) strength += 1;
         return Math.min(strength, 4);
     }
-
     function updateStrengthMeter() {
         const pwd = passwordInput.value;
         const strengthVal = checkStrength(pwd);
@@ -910,7 +962,7 @@
     passwordInput.addEventListener('input', updateStrengthMeter);
     updateStrengthMeter();
 
-    // 2. تذكرني (حفظ اسم المستخدم فقط للتذكرة)
+    // تذكرني (اسم المستخدم فقط)
     const rememberCheck = document.getElementById('rememberCheckbox');
     function loadRememberedUser() {
         const flag = localStorage.getItem('rememberMeFlag');
@@ -921,7 +973,6 @@
         } else {
             rememberCheck.checked = false;
         }
-        // عرض آخر وقت دخول
         const lastTime = localStorage.getItem('lastLoginTime');
         if(lastTime) {
             document.getElementById('lastLoginText').innerHTML = `آخر دخول: ${lastTime}`;
@@ -929,12 +980,9 @@
             document.getElementById('lastLoginText').innerHTML = 'لم تسجل دخول سابقاً';
         }
     }
-    
-    // 3. تحميل البيانات المحفوظة (كامل البيانات) بعد تحميل الصفحة (إعادة تنشيط)
-    loadSavedCredentials();
     loadRememberedUser();
 
-    // 4. مودال نسيان كلمة المرور
+    // مودال نسيان كلمة المرور
     const modal = document.getElementById('forgotModal');
     const forgotBtn = document.getElementById('forgotPasswordBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
@@ -950,7 +998,7 @@
         if(e.target === modal) closeModal();
     });
 
-    // 5. تأثير تموج عند النقر على الزر
+    // تأثير تموج
     loginBtn.addEventListener('click', (e) => {
         if(loginBtn.classList.contains('btn-loading')) return;
         let ripple = document.createElement('span');
@@ -965,12 +1013,11 @@
         loginBtn.appendChild(ripple);
         setTimeout(() => ripple.remove(), 500);
     });
-
     const extraStyle = document.createElement('style');
     extraStyle.textContent = `.ripple-effect { position: absolute; background: rgba(255,255,240,0.5); border-radius: 50%; transform: scale(0); animation: rippleAnim 0.5s linear; pointer-events: none; } @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } } .login-btn { overflow: hidden; }`;
     document.head.appendChild(extraStyle);
 
-    // 6. تحديث معلومات آخر دخول ديناميكياً
+    // تحديث آخر دخول عند التخزين
     window.addEventListener('storage', (e) => {
         if(e.key === 'lastLoginTime') {
             const newTime = localStorage.getItem('lastLoginTime');
@@ -978,7 +1025,7 @@
         }
     });
 
-    // 7. تحسين تفاعلي: تغيير لون الأيقونة عند التركيز
+    // تأثيرات التركيز
     const inputs = document.querySelectorAll('input');
     inputs.forEach(inp => {
         inp.addEventListener('focus', () => {
@@ -996,15 +1043,45 @@
             }
         });
     });
-    
-    // تنبيه ترحيبي عند تحميل الصفحة باستخدام iziToast (اختياري)
+
+    // ========== تبديل الوضع الفاتح/الداكن ==========
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(theme) {
+        if (theme === 'light') {
+            document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
+            localStorage.setItem('theme', 'light');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i><span>الوضع الداكن</span>';
+        } else {
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i><span>الوضع الفاتح</span>';
+        }
+    }
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        setTheme('light');
+    } else {
+        setTheme('dark');
+    }
+    themeToggle.addEventListener('click', () => {
+        const isLight = document.body.classList.contains('light-mode');
+        if (isLight) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    });
+
+    // رسالة ترحيب
     setTimeout(() => {
         iziToast.info({
             title: 'مرحباً',
             message: 'نظام الدخول الآمن لمصنع الحرمين للبلاستيك',
             position: 'bottomCenter',
-            timeout: 7000,
-            backgroundColor: '#fff',
+            timeout: 5000,
+            backgroundColor: '#1e2a3a',
             rtl: true,
             icon: 'fas fa-shield-alt'
         });
